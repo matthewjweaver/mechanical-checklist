@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Create Subscription{% endblock %}
+
+{% block body %}
+    <form method="post">
+        {{ form }}
+        {% csrf_token %}
+        <input type="submit" />
+    </form>
+{% endblock %}

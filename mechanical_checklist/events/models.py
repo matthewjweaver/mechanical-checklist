@@ -1,9 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 # Create your models here.
 class Event(models.Model):
     name = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.name
 
 class Incident(models.Model):
     SOURCE_NIST_RSS, SOURCE_MANUAL = range(2)
@@ -19,8 +23,11 @@ class Incident(models.Model):
 
 class Subscription(models.Model):
     event = models.ForeignKey(Event)
-    timestamp = models.DateTimeField()
+    timestamp = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(User)
+
+    def get_absolute_url(self):
+        return "/subscriptions/view/{self.id}/".format(self=self)
 
 class NotificationChannel(models.Model):
     KIND_EMAIL, = range(1)
